@@ -2,7 +2,8 @@
 #include <vector>
 #include <string>
 
-extern bool day1_0(const char *input);
+extern bool day1_0(const char *input, unsigned long &totalOut, std::vector<unsigned long> &masses);
+extern bool day1_1(const std::vector<unsigned long> &masses);
 
 int main(int argc, char *argv[])
 {
@@ -13,7 +14,11 @@ int main(int argc, char *argv[])
 	}
 
 	bool failure = false;
-	failure |= !day1_0("day1_0.input");
+
+	unsigned long initalFuel;
+	std::vector<unsigned long> masses;
+	failure |= !day1_0("day1_0.input", initalFuel, masses);
+	failure |= !day1_1(masses);
 
 	if (failure)
 	{

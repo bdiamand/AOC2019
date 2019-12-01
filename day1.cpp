@@ -33,13 +33,12 @@ bool ToULongs(const std::vector<std::string> &lines, std::vector<unsigned long> 
 	return true;
 }
 
-bool day1_0(const char *input)
+bool day1_0(const char *input, unsigned long &totalOut, std::vector<unsigned long> &masses)
 {
 	std::vector<std::string> lines;
 	GetFileLines(input, lines);
 
-	std::vector<unsigned long> ulongs;
-	bool success = ToULongs(lines, ulongs);
+	bool success = ToULongs(lines, masses);
 	if (!success)
 	{
 		printf("Bad input value\n");
@@ -47,7 +46,7 @@ bool day1_0(const char *input)
 	}
 
 	unsigned long total = 0;
-	for (unsigned long val : ulongs)
+	for (unsigned long val : masses)
 	{
 		val /= 3;
 		if (val < 2)
@@ -59,8 +58,37 @@ bool day1_0(const char *input)
 		
 		total += val;
 	}
+	totalOut = total;
 
-	printf("day1_0:%lu\n", total);
+	printf("day1_0:%lu\n", totalOut);
+
+	return true;
+}
+
+unsigned long FuelNeeded(unsigned long mass)
+{
+	unsigned long amt = mass / 3;
+	return (amt > 1) ? (amt - 2) : 0;
+}
+
+bool day1_1(const std::vector<unsigned long> &masses)
+{
+	unsigned long totalModulesFuel = 0;
+
+	for (const unsigned long mass : masses)
+	{
+		unsigned long totalModuleFuel = 0;
+		unsigned long remainder = mass;
+		do
+		{
+			remainder = FuelNeeded(remainder);
+			totalModuleFuel += remainder;
+		} while (remainder);
+
+		totalModulesFuel += totalModuleFuel;
+	}
+
+	printf("day1_1:%lu\n", totalModulesFuel);
 
 	return true;
 }
