@@ -48,13 +48,8 @@ static bool GetIndices(std::vector<unsigned long> &mod_ops, size_t &curIndex, un
 	return true;
 }
 
-bool day2_0()
+bool run_program(std::vector<unsigned long> &mod_ops)
 {
-	std::vector<unsigned long> mod_ops = ops;
-
-	mod_ops[1] = 12;
-	mod_ops[2] = 2;
-
 	for (size_t index = 0; index < mod_ops.size();)
 	{
 		unsigned long vals[4];
@@ -81,7 +76,56 @@ bool day2_0()
 		}
 	}
 
+	return true;
+}
+
+bool day2_0()
+{
+	std::vector<unsigned long> mod_ops = ops;
+	mod_ops[1] = 12;
+	mod_ops[2] = 2;
+
+	const bool result = run_program(mod_ops);
+	if (!result)
+	{
+		return result;
+	}
+
 	printf("day2_0:%lu\n", mod_ops[0]);
+
+	return true;
+}
+
+bool day2_1()
+{
+	std::vector<unsigned long> mod_ops;
+
+	for (unsigned long noun = 0; noun < 100; noun++)
+	{
+		for (unsigned long verb = 0; verb < 100; verb++)
+		{
+			mod_ops = ops;
+
+			mod_ops[1] = noun;
+			mod_ops[2] = verb;
+
+			const bool result = run_program(mod_ops);
+			if (!result)
+			{
+				return result;
+			}
+
+			if (mod_ops[0] == 19690720)
+			{
+				goto success;
+			}
+		}
+	}
+
+	return false;
+
+success:
+	printf("day2_1:%lu\n", mod_ops[1] * 100 + mod_ops[2]);
 
 	return true;
 }
